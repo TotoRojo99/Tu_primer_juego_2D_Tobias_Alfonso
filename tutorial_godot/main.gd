@@ -1,19 +1,26 @@
 extends Node
 
 @export var mob_scene : PackedScene
-var score
+var score = 0
 
 func _ready():
-	New_Game()
+	pass
 
 func Game_Over():
+	$Music.stop()
 	$ScoreTimer.stop()
 	$MobTimer.stop()
+	$HUD.show_Game_over()
+	get_tree().call_group("mobs","queue_free")
+	$DeathSound.play()
 	
 func New_Game():
 	score = 0
+	$Music.play()
 	$Player.start($StartPosition.position)
 	$StartTimer.start()
+	$HUD.update_score(score)
+	$HUD.show_message("Get Ready")
 	
 func _on_start_timer_timeout():
 	$ScoreTimer.start()
@@ -22,6 +29,7 @@ func _on_start_timer_timeout():
 
 func _on_score_timer_timeout():
 	score += 1
+	$HUD.update_score(score)
 	
 func _on_mob_timer_timeout():
 	var mob = mob_scene.instantiate()

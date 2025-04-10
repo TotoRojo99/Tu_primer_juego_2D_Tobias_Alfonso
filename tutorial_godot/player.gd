@@ -6,7 +6,7 @@ var screen_size
 
 func _ready():
 	screen_size = get_viewport_rect().size
-	hide()
+	
 	
 func _process(delta):
 	var velocity = Vector2.ZERO
@@ -44,3 +44,4 @@ func _on_body_entered(body: Node2D) -> void:
 func start(pos):
 	position = pos
 	$CollisionShape2D.disabled = false
+	show()
